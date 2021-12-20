@@ -5,14 +5,12 @@
 <h1>
     IT Academy
 </h1>
-<h3>
-    <%=connect%>
-</h3>
+
 <h2>
     Entrer votre pseudo
 </h2>
 
-<form action="/login/getPseudo" method="post">
-    <input type="text" name="pseudo" />
+<form action="/login/getPseudo" method="get">
+    <input type="text" name="pseudo" id="pseudo" />
     <input type="submit" value="Enregistrer" />
 </form>

@@ -9,7 +9,8 @@ let userController = require('./Controllers/Controller');
 
 router.get('/', userController.formationList);
 router.get('/login', userController.login);
-router.post('/login/getPseudo', userController.createSession);
+router.get('/login/getPseudo', userController.createSession);
+router.get('/login/getPseudotoFinalize', userController.createSessiontoFinalize);
 router.get('/subscribe/:i', userController.subscribe);
 router.get('/delete/:i', userController.delete);
 router.get('/viewCart', userController.viewCart);

@@ -1,8 +1,9 @@
 //Import todo model
-
+let session = require('express-session');
 var mysql = require("mysql");
 const { application } = require('express');
 const cartList = require('../Models/cartModel');
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -14,19 +15,11 @@ connection.connect(function(error) { if (error) console.log(error); })
 let express = require('express');
 let app = express();
 
-var cookieParser = require('cookie-parser');
-app.use(cookieParser());
+// var cookieParser = require('cookie-parser');
+// app.use(cookieParser());
 
-
-let session = require('express-session');
-app.use(session({
-    secret: 'long_string_which_is_hard_to_crack', //génér un clé unique
-    resave: false, //eviter de recréer nouvelle session
-    saveUninitialized: true // ne pas effacer la session quand on quitte
-}));
 
 let cart = [];
-var g = "mhagaga";
 
 exports.formationList = function(req, res) {
     connection.query("select * from formation;", function(error, result) {
@@ -39,13 +32,25 @@ exports.formationList = function(req, res) {
 exports.login = function(req, res) {
     res.render('login.ejs', { connect: "" });
 };
-
 exports.createSession = function(req, res) {
-    req.session.user = req.body.pseudo;
-    //prompt('Hello ' + req.session.pseudo);
-    //req.session.user = a;
+    req.session.pseudo = req.query.pseudo;
+    console.log(req.session);
     res.redirect('/');
 };
+
+exports.createSessiontoFinalize = function(req, res) {
+    req.session.pseudo = req.query.pseudo;
+    console.log(req.session);
+    res.redirect('/finalize');
+
+};
+// exports.createSession = function(req, res) {
+//     req.session.pseudo = req.query.pseudo;
+//     console.log(req.session);
+//     //prompt('Hello ' + req.session.pseudo);
+//     //req.session.user = a;
+//     res.render('formationList.ejs', { formation: result, greeting: '' });
+// };
 
 // exports.subscribe = function(req, res) {
 //     let id = req.params.id;
@@ -69,6 +74,7 @@ exports.viewCart = function(req, res) {
     connection.query("select * from formation;", function(error, result) {
         if (error) console.log(error);
         res.render('cart.ejs', { formation: result, cart: cart });
+        console.log(req.session);
     });
 };
 
@@ -85,38 +91,60 @@ exports.delete = function(req, res) {
 };
 
 exports.Finalize = function(req, res) {
-    if (g = '') {
-        res.render('login.ejs', { connect: "Commencez par vous connecter" });
+    if (req.session.pseudo == null) {
+        res.render('finalLogin.ejs');
     } else {
-        // var order = new cartList(cart, g);
-        // var toSave = order.toOneArray();
-        var pseudos = [];
-        for (let b = 0; b < cart.length; b++) {
-            pseudos.push(g);
-            console.log('append pseudos' + g)
+        for (let i = 0; i < cart.length; i++) {
+            let finalOrder = { "pseudo": req.session.pseudo, "formationID": cart[i] };
+            //var IdFormation = cart[i];
+            //var pseudos = req.session.pseudo;
+            //let finalOrder = { "formationID": cart[i], "pseudo": req.session.pseudo };
+            connection.query("INSERT INTO subscription SET ?", finalOrder, function(error, result) {
+                //connection.query("INSERT INTO subscription(formationID, pseudo) VALUES? ", [IdFormation, pseudos], function(err) {
+                if (error) console.log(error);
+            })
         }
-        console.log(pseudos);
-        var toOneArray = function(cart, pseudos) {
-            return cart.map(function(elem, j) {
-                return [elem, pseudos[j]]
-            });
-        }
-
-        connection.query("INSERT INTO subscription(formationID, pseudo) VALUES? ", [toOneArray(cart, pseudos)], function(err, result) {
-            //connection.query("INSERT INTO subscription(formationID, pseudo) VALUES? ", [toSave(cart, pseudos)], function(err, result) {
-            if (err) console.log(err);
-            cart = [];
-            res.send('Votre inscription a été bien enregistré');
-        });
+        cart = [];
+        res.send('Votre inscription a été bien enregistré');
     }
-}
-
-
-exports.logout = function(req, res) {
-    req.session.destroy();
-    res.send('Logout succes');
 
 }
+
+// exports.Finalize = function(req, res) {
+//     if (g = '') {
+//         res.render('login.ejs', { connect: "Commencez par vous connecter" });
+//     } else {
+//         // var order = new cartList(cart, g);
+//         // var toSave = order.toOneArray();
+//         var pseudos = [];
+//         for (let b = 0; b < cart.length; b++) {
+//             pseudos.push(g);
+//             console.log('append pseudos' + g)
+//         }
+//         console.log(pseudos);
+//         var toOneArray = function(cart, pseudos) {
+//             return cart.map(function(elem, j) {
+//                 return [elem, pseudos[j]]
+//             });
+//         }
+
+//         connection.query("INSERT INTO subscription(formationID, pseudo) VALUES? ", [toOneArray(cart, pseudos)], function(err, result) {
+//             //connection.query("INSERT INTO subscription(formationID, pseudo) VALUES? ", [toSave(cart, pseudos)], function(err, result) {
+//             if (err) console.log(err);
+//             cart = [];
+//             res.send('Votre inscription a été bien enregistré');
+//         });
+//     }
+// }
+
+
+
+
+// exports.logout = function(req, res) {
+//     req.session.destroy();
+//     res.send('Logout succes');
+
+// }
 
 // exports.userNew = function(req, res) {
 //     let iduser = req.body.iduser;
