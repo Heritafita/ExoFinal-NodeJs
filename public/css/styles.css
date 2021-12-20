@@ -1,0 +1,44 @@
+h1 {
+    text-align: center;
+    color: rgb(4, 45, 99);
+    font-weight: bold;
+}
+
+h2 {
+    text-align: left;
+    font-weight: bold;
+    font-size: 25px;
+    color: rgb(4, 45, 99);
+}
+
+h3 {
+    text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(4, 45, 99);
+}
+
+.button1 {
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(3, 97, 81);
+    border: none;
+    border-radius: 3px;
+    background-color: darkgrey;
+    text-decoration: none;
+    margin: 5px 5px;
+}
+
+td {
+    border: 1px solid rgba(129, 127, 127, 0.815);
+}
+
+.button2 {
+    font-size: 18px;
+    color: rgb(3, 97, 81);
+    border: none;
+    border-radius: 3px;
+    background-color: darkgrey;
+    text-decoration: none;
+    margin: 6px 6px;
+}

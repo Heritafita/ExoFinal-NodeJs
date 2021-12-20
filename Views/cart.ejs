@@ -1,0 +1,66 @@
+<head>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<h1>
+    IT Academy
+</h1>
+<h2>
+    Panier
+</h2>
+
+<div>
+
+    <a class="button1" href="/finalize">Finaliser l'inscription</a>
+    <a class="button1" href="/">Retourner au catalogue de formation</a>
+    <br></br>
+</div>
+
+<div>
+    <table>
+        <tr>
+            <td>
+                Id
+            </td>
+            <td>
+                Nom
+            </td>
+            <td>
+                Prix
+            </td>
+            <td>
+                Début
+            </td>
+            <td>
+                Fin
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        <% for (let i = 0 ; i < cart.length ; i++) { 
+                let p = cart[i];
+                k=p-1%>
+            <tr>
+                <td>
+                    <%=formation[k].idFormation%>
+                </td>
+                <td>
+                    <%=formation[k].Nom %>
+                </td>
+                <td>
+                    <%=formation[k].Prix%>
+                </td>
+                <td>
+                    <%=formation[k].Debut%>
+                </td>
+                <td>
+                    <%=formation[k].Fin%>
+                </td>
+                <td>
+                    <a class="button2" href="/delete/<%= formation[k].idFormation %>">Supprimer</a>
+                </td>
+            </tr>
+            <% } %>
+    </table>
+</div>
