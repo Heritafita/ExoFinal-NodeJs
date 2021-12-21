@@ -1,0 +1,15 @@
+<head>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="SurfaceValue.js"></script>
+</head>
+
+
+<form action="/" method="post">
+    <!--  "method="get" si on utilise app.get et method="post" si on utilise app.post -->
+    Pièce : <input type="text" name="Room" id="room" /> Largeur : <input type="text" name="Width" value="' + count +'" id="Width" /> Longueur : <input type="text" name="Length" value="' + count +'" id="Length" />
+    <input type="submit" name="Enregister" value="sauver">
+</form>
+<div class="button">
+    <button onclick="RoomSurface()">Calculer la surface</button> Surface :
+    <p id="SurfaceVal"></p>
+</div>

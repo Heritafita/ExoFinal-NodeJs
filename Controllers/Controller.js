@@ -1,9 +1,10 @@
 //Import todo model
 let session = require('express-session');
-var mysql = require("mysql");
 const { application } = require('express');
 const cartList = require('../Models/cartModel');
 
+
+var mysql = require("mysql");
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -24,7 +25,7 @@ let cart = [];
 exports.formationList = function(req, res) {
     connection.query("select * from formation;", function(error, result) {
         if (error) console.log(error);
-        res.render('formationList.ejs', { formation: result, greeting: '' });
+        res.render('formationList.ejs', { formation: result, greeting: '', connect: 'Se connecter' });
     });
 
 };
@@ -35,7 +36,7 @@ exports.login = function(req, res) {
 exports.createSession = function(req, res) {
     req.session.pseudo = req.query.pseudo;
     console.log(req.session);
-    res.redirect('/');
+    res.render('formationList.ejs', { formation: result, greeting: '', connect: '' });
 };
 
 exports.createSessiontoFinalize = function(req, res) {
